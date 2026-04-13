@@ -11,9 +11,9 @@ Basing it off SUNY New Paltz's own Academic Computing Department's manual invent
 ### Dorms
 
 ### Academic Way
-College Hall
-Shango Hall || ShangoEOP
-Bouton
+- College Hall
+- Shango Hall || ShangoEOP
+- Bouton
 
 ### Storage
 
