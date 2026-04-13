@@ -7,7 +7,7 @@ Basing it off SUNY New Paltz's own Academic Computing Department's manual invent
 ## List of Buildings and Storage
 ### Dorms
 
-###Storage
+### Storage
 
 ## Supplies To Be Tracked
 
