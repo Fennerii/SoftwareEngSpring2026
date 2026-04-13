@@ -10,6 +10,11 @@ Basing it off SUNY New Paltz's own Academic Computing Department's manual invent
 ## List of Buildings and Storage
 ### Dorms
 
+### Academic Way
+College Hall
+Shango Hall || ShangoEOP
+Bouton
+
 ### Storage
 
 ## Supplies To Be Tracked
