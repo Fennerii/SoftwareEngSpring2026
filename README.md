@@ -8,6 +8,23 @@ Inventory Management System for Department Supplies – Tracks and reports depar
 Basing it off SUNY New Paltz's own Academic Computing Department's manual inventory system.
 
 ## List of Buildings and Storage
+
+### Academic Buildings
+- Engineering and Innovation Hub
+- Peregrine Dining Hall
+- Louis and Mildred Resnick Hall
+- Smiley Art Building
+- Wooster Hall
+- Atrium
+- Academic College Hall
+- Coykdenall Science Building
+- Lecture Center
+- Science Hall
+- Humanities
+- Old Main
+- Old Library
+- Van Den Berg Hall
+
 ### Dorms
 
 #### Academic Way
