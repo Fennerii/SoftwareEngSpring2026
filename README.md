@@ -10,10 +10,28 @@ Basing it off SUNY New Paltz's own Academic Computing Department's manual invent
 ## List of Buildings and Storage
 ### Dorms
 
-### Academic Way
+#### Academic Way
 - College Hall
-- Shango Hall || ShangoEOP
-- Bouton
+- Shango Hall && ShangoEOP
+- Bouton Hall
+
+### Parker Quad
+- Capen Hall && CapenEOP
+- Scudder Hall
+- Bliss Hall
+- Gage Hall
+
+#### Peregine Suites
+- Awosting Hall
+- Mohonk Hall
+- Shawanagunk Hall
+- Ashokan Hall
+- Minnewaska Hall
+
+#### SouthSide Dorms
+- Ridgeview Hall
+- Esopus Hall
+- Lenape Hall
 
 ### Storage
 
