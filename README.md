@@ -32,7 +32,7 @@ Basing it off SUNY New Paltz's own Academic Computing Department's manual invent
 - Shango Hall && ShangoEOP
 - Bouton Hall
 
-### Parker Quad
+#### Parker Quad
 - Capen Hall && CapenEOP
 - Scudder Hall
 - Bliss Hall
