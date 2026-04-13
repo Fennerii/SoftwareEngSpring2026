@@ -51,11 +51,28 @@ Basing it off SUNY New Paltz's own Academic Computing Department's manual invent
 - Lenape Hall
 
 ### Storage
+- Esopus
+- Gage
+- CSB 117
+- LC 06
+- OM 134
+- Minnewaska 007
+- SH 139
+- VH 113
 
 ## Supplies To Be Tracked
+- Paper
+- Toner
 
 ## Who Can Monitor These Items
+- IT Help Desk
+- Proctors
+- Senior Proctors
+- Admins
 
 ## Technologies Used
+- HTML
+- CSS
+- JavaScript
 
 
