@@ -1,6 +1,9 @@
 # SoftwareEngSpring2026
 Inventory Management System for Department Supplies – Tracks and reports departmental supplies and stock levels.
 
+## Authored By
+
+
 ## Design
 Basing it off SUNY New Paltz's own Academic Computing Department's manual inventory system.
 
@@ -10,5 +13,9 @@ Basing it off SUNY New Paltz's own Academic Computing Department's manual invent
 ### Storage
 
 ## Supplies To Be Tracked
+
+## Who Can Monitor These Items
+
+## Technologies Used
 
 
