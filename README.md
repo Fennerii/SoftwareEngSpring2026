@@ -45,7 +45,7 @@ Basing it off SUNY New Paltz's own Academic Computing Department's manual invent
 - Ashokan Hall
 - Minnewaska Hall
 
-#### SouthSide Dorms
+#### Southside Dorms
 - Ridgeview Hall
 - Esopus Hall
 - Lenape Hall
