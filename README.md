@@ -74,5 +74,6 @@ Basing it off SUNY New Paltz's own Academic Computing Department's manual invent
 - HTML
 - CSS
 - JavaScript
+- MySQL
 
 
