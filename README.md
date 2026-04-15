@@ -2,7 +2,10 @@
 Inventory Management System for Department Supplies – Tracks and reports departmental supplies and stock levels.
 
 ## Authored By
+Jonathan Fenner, 
 
+#TODO:
+Javascript Functions
 
 ## Design
 Basing it off SUNY New Paltz's own Academic Computing Department's manual inventory system.
