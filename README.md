@@ -73,6 +73,7 @@ Basing it off SUNY New Paltz's own Academic Computing Department's manual invent
 ## Technologies Used
 - HTML
 - CSS
+- Bulma
 - Vue
 - JavaScript
 - MySQL
