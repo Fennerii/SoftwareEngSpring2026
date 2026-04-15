@@ -6,6 +6,7 @@ Jonathan Fenner, Joshua Alfarano, Taylor Ascarino, Ananda Feron
 
 #TODO:
 Javascript Functions
+Make Room Details (i.e Toner Type, Color/BW)
 MYSQL DataBase
 
 ## Design
