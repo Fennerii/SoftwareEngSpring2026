@@ -23,9 +23,9 @@ After that, everything gets converted into a JSON file, which the current status
 
 For the prototype, it takes that JSON file and pumps it into a MySQL database using a Node.js script. The script reads/parses the JSON and inserts or updates the data in the database.
 
-From there, I have a simple API (/printers) that pulls the data from MySQL, and the frontend uses fetch() to display it on the page (cards with name, IP, status, etc.).
+From there, a simple API (/printers) pulls the data from MySQL, and the frontend uses fetch() to display it on the page (cards with name, IP, status, etc.).
 
-Brendan’s site updates the printer chassis information every 5 minutes through its cron job. For my prototype, I set up my sync script to run every 2 minutes, so the database stays more frequently updated with the latest data.
+Brendan’s site updates the printer chassis information every 5 minutes through its cron job. For the prototype, I thought to set up the sync script to run every 2 minutes, so the database stays more frequently updated with the latest data.
 
 This way, instead of relying directly on a static JSON file, the data is stored in a database and can be queried/updated more easily while still staying in sync with the cron job.
 
