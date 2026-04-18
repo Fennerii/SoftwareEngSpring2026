@@ -1,0 +1,32 @@
+body {
+    font-family: Arial;
+    background: #111;
+    color: white;
+}
+
+h1 {
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 20px;
+    justify-content: center;
+}
+
+.card {
+    background: #222;
+    padding: 15px;
+    border-radius: 10px;
+    width: 250px;
+}
+
+.ok {
+    border-left: 5px solid lime;
+}
+
+.error {
+    border-left: 5px solid red;
+}
