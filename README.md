@@ -4,7 +4,7 @@ Inventory Management System for Department Supplies – Tracks and reports depar
 ## Authored By
 Jonathan Fenner, Joshua Alfarano, Taylor Ascarino, Ananda Feron
 
-#TODO:
+#TODO: 
 Javascript Functions
 Make Room Details (i.e Toner Type, Color/BW)
 MYSQL DataBase
