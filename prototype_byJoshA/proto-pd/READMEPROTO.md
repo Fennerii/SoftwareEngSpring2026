@@ -15,9 +15,11 @@ url for the JSON file : https://print.newpaltz.edu/api/data/acs_printer_data.jso
 
 (!IMPORTANT NOTE! You must be connected to SUNY New Paltz’s network to access the JSON data, it is restricted and will block requests from off-campus users, so the data will not load unless you are on campus (or using a campus network/VPN))
 
-The existing system runs a PHP script on a cron job. That script pulls device data from a TeamDynamix asset report (IP addresses, device names, etc.). It then uses SNMP walk on each device to get status/info from the chassis.
+The existing system runs a PHP script as a cron job. That script pulls a TeamDynamix asset report to obtain current printer assest information. It then uses SNMPwalk command on each device to get status/info from the chassis.
 
-After that, everything gets converted into a JSON file, which the current status page reads from to display device info.
+SNMPwalk info : https://linux.die.net/man/1/snmpwalk
+
+The result are then compliled and saved as a static JSON file, which the current status page reads from to display device info.
 
 ### How the Prototype works
 
