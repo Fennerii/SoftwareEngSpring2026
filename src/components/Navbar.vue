@@ -2,7 +2,7 @@
     <div>
         <nav>
             <div class="nav-brand">
-                <span>Inventory Management System</span>
+                <img src="../assets/newpaltz_logo_dark.jpg" alt="Logo" width="50" height="50" class="nav-logo">
             </div>
 
             <div class="nav-links">
@@ -14,3 +14,26 @@
         </nav>
     </div>
 </template>
+
+<script setup>
+</script>
+
+<style scoped>
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 35px 20px;
+    background-color: #012242;
+}
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 1.2rem;
+}
+.nav-logo {
+ width: auto;
+ height: 70px;
+ }
+</style>
