@@ -1,9 +1,0 @@
-/*
-Main Functions
-Get Toner
-Get Paper
-Update Paper
-Update Toner
-Show Total
-Show Type of Toner Printer Takes
-*/
