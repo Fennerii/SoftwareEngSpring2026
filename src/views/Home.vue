@@ -9,4 +9,16 @@
 </script>
 
 <style scoped>
+.home {
+  padding: 20px;
+}
+
+h1 {
+  color: black;
+  font-size: 2rem;
+}
+
+p {
+  font-size: 1rem;
+}
 </style>
