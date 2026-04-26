@@ -6,19 +6,30 @@
     <div v-if="error">{{ error }}</div>
 
     <div class="cards">
-      <div
-        v-for="printer in dormPrinters"
-        :key="printer.serial_number"
-        :class="['card', printer.is_error ? 'error' : 'ok']"
-      >
-        <h3>{{ printer.name }}</h3>
-        <p><b>Location:</b> {{ printer.location }}</p>
-        <p><b>Status:</b> {{ printer.status }}</p>
-        <p><b>IP:</b> {{ printer.ip }}</p>
-        <p><b>Pages:</b> {{ printer.page_count }}</p>
-      </div>
-    </div>
 
+      <div v-for="(printers, building) in groupedPrinters" :key="building">
+
+        <div class="building-header" @click="toggle(building)">
+          {{ building }} {{ open[building] ? '▲' : '▼' }}
+        </div>
+
+        <div v-if="open[building]" class="printer-list">
+          <div
+            v-for="printer in printers"
+            :key="printer.serial_number"
+            :class="['card', printer.is_error ? 'error' : 'ok']"
+          >
+            <h3>{{ printer.name }}</h3>
+            <p><b>Location:</b> {{ printer.location }}</p>
+            <p><b>Status:</b> {{ printer.status }}</p>
+            <p><b>IP:</b> {{ printer.ip }}</p>
+            <p><b>Pages:</b> {{ printer.page_count }}</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
   </div>
 </template>
 
@@ -29,53 +40,74 @@ const printers = ref([])
 const loading = ref(true)
 const error = ref(null)
 
-const dormCodes = [
-  'SGH', 'CPH', 'SCH', 'GH',
-  'ESH', 'LPH', 'MNH', 'MOH',
-  'RVH', 'SWH', 'AWH', 'BLH'
-]
+const open = ref({})
 
+//only the dorm buildings
+const dormGroups = {
+  "Academic Way": ["College Hall", "Shango Hall", "ShangoEOP", "Bouton Hall"],
+  "Parker Quad": ["Capen Hall", "CapenEOP", "Scudder Hall", "Bliss Hall", "Gage Hall"],
+  "Peregrine Suites": ["Awosting Hall", "Mohonk Hall", "Shawangunk Hall", "Ashokan Hall", "Minnewaska Hall"],
+  "Southside Dorms": ["Ridgeview Hall", "Esopus Hall", "Lenape Hall"]
+}
+
+//load printers
 onMounted(async () => {
   try {
     const res = await fetch('http://localhost:3000/printers')
     const data = await res.json()
     printers.value = data
-  } catch (err) {
-    error.value = 'Failed to load printers'
-  } finally {
-    loading.value = false
+  } catch (e) {
+    error.value = "couldn't load printers"
   }
+
+  loading.value = false
 })
 
-const dormPrinters = computed(() =>
-  printers.value
-    .filter(p => dormCodes.some(code => p.location.includes(code)))
-    .sort((a, b) => a.location.localeCompare(b.location))
-)
+//group printers by dorm buildings
+const groupedPrinters = computed(() => {
+  let groups = {}
+
+  printers.value.forEach(p => {
+
+    let found = false
+    let groupName = ""
+
+    for (let group in dormGroups) {
+      for (let i = 0; i < dormGroups[group].length; i++) {
+
+        if (p.location.includes(dormGroups[group][i])) {
+          found = true
+          groupName = group
+        }
+
+      }
+    }
+
+    if (!found) return
+
+    if (!groups[groupName]) {
+      groups[groupName] = []
+    }
+
+    groups[groupName].push(p)
+  })
+
+  let ordered = {}
+  Object.keys(dormGroups).forEach(key => {
+    if (groups[key]) {
+      ordered[key] = groups[key]
+    }
+  })
+
+  return ordered
+})
+
+//toggle dropdown
+function toggle(building) {
+  if (open.value[building]) {
+    open.value[building] = false
+  } else {
+    open.value[building] = true
+  }
+}
 </script>
-
-<style scoped>
-.dorms {
-  padding: 20px;
-}
-
-.cards {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 20px;
-}
-
-.card {
-  display: flex;
-  align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 16px;
-  border-left: 8px solid green;
-}
-
-.error {
-  border-left: 8px solid red;
-}
-</style>

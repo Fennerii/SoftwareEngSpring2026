@@ -2,9 +2,60 @@
     color-scheme: light;
 }
 
-body{
+body {
     background-color: white;
     color: black;
     margin: 0;
     padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.academic, .dorms {
+    padding: 20px;
+}
+
+.building-header {
+    background: #e5e5e5;
+    color: black;
+    padding: 12px;
+    margin-top: 12px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.building-header:hover {
+    background: #d4d4d4;
+}
+
+.printer-list {
+    margin-left: 15px;
+    margin-top: 5px;
+}
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.card {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 14px;
+    border-left: 6px solid green;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card.error {
+    border-left: 6px solid red;
+}
+
+.card h3 {
+    margin: 0 0 8px 0;
+}
+
+.card p {
+    margin: 4px 0;
 }
