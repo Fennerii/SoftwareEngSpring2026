@@ -5,9 +5,9 @@ Inventory Management System for Department Supplies – Tracks and reports depar
 Jonathan Fenner, Joshua Alfarano, Taylor Ascarino, Ananda Feron
 
 #TODO: 
-Javascript Functions
-Make Room Details (i.e Toner Type, Color/BW)
 MYSQL DataBase
+Paper Section
+Populate The Homepage
 
 ## Design
 Basing it off SUNY New Paltz's own Academic Computing Department's manual inventory system.
