@@ -14,8 +14,13 @@
         </div>
 
         <div v-if="open[building]" class="printer-list">
-          <div v-for="printer in printers" :key="printer.serial_number"
-            :class="['card', printer.is_error ? 'error' : 'ok']">
+          <div v-for="printer in printers" :key="printer.serial_number" 
+          :class="[
+            'card',
+            isLowToner(printer)
+              ? 'warning'
+              : (printer.is_error ? 'error' : 'ok')
+          ]">
             <h3>{{ printer.name }}</h3>
             <p><b>Location:</b> {{ printer.location }}</p>
             <p><b>Status:</b> {{ printer.status }}</p>
@@ -121,4 +126,14 @@ function toggle(building) {
     open.value[building] = true
   }
 }
+
+function isLowToner(printer) {
+  return (
+    (printer.black != null && printer.black <= 10 ) ||
+    (printer.cyan != null && printer.cyan <= 10 ) ||
+    (printer.magenta != null && printer.magenta <= 10 ) ||
+    (printer.yellow != null && printer.yellow <= 10 )
+  );
+}
+
 </script>

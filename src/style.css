@@ -52,6 +52,10 @@ body {
     border-left: 6px solid red;
 }
 
+.card.warning {
+    border-left: 6px solid orange;
+}
+
 .card h3 {
     margin: 0 0 8px 0;
 }
