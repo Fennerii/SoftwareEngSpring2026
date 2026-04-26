@@ -51,6 +51,14 @@ async function loadPrinters() {
                 <p><b>Location:</b> ${p.location}</p>
                 <p><b>Status:</b> ${p.status}</p>
                 <p><b>Pages:</b> ${p.page_count}</p>
+
+                <p>
+                    <b>Toner:</b>
+                    ${p.black != null ? `<span style="color:black">Black: ${p.black}%</span> ` : ""}
+                    ${p.cyan != null ? `<span style="color:blue">Cyan: ${p.cyan}%</span> ` : ""}
+                    ${p.magenta != null ? `<span style="color:purple">Magenta: ${p.magenta}%</span> ` : ""}
+                    ${p.yellow != null ? `<span style="color:goldenrod">Yellow: ${p.yellow}%</span>` : ""}
+                </p>
             `;
 
             list.appendChild(div);

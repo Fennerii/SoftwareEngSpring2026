@@ -40,3 +40,7 @@ CREATE TABLE IF NOT EXISTS work_history (
     FOREIGN KEY (printer_serial) REFERENCES printers(serial_number),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+
+-- use these mysql commands to scrub test data
+-- TRUNCATE TABLE (work_history or users);
+    -- gets rid of all columns in a table

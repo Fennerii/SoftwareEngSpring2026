@@ -7,33 +7,49 @@
 
             <div class="nav-links">
                 <RouterLink to="/">Home</RouterLink>
-                <RouterLink to="/Academic">Academic Buildings</RouterLink>
-                <RouterLink to="/Dorms">Dormitories</RouterLink>
-                <RouterLink to="/Storage">Storage</RouterLink>
+                <a @click="goProtected('/Academic')">Academic Buildings</a>
+                <a @click="goProtected('/Dorms')">Dormitories</a>
+                <a @click="goProtected('/Storage')">Storage</a>
+
+                <span v-if="username" class="user">
+                    Logged in as <b>{{ username }}</b>
+                </span>
+
+                <button v-if="username" @click="logout" class="logout-btn">
+                    Logout
+                </button>
+
+                <RouterLink v-else to="/Auth">Login</RouterLink>
             </div>
         </nav>
     </div>
 </template>
 
 <script setup>
-</script>
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
-<style scoped>
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 35px 20px;
-    background-color: #012242;
+const router = useRouter()
+
+const username = ref(null)
+
+onMounted(() => {
+    username.value = localStorage.getItem("username")
+})
+
+function logout() {
+    localStorage.removeItem("user_id")
+    localStorage.removeItem("username")
+    window.location.href = "/"
 }
-.nav-links a {
-    color: white;
-    text-decoration: none;
-    margin-left: 20px;
-    font-size: 1.2rem;
+
+function goProtected(path) {
+    const user = localStorage.getItem("user_id")
+
+    if (!user) {
+        router.push('/Auth')
+    } else {
+        router.push(path)
+    }
 }
-.nav-logo {
- width: auto;
- height: 70px;
- }
-</style>
+</script>

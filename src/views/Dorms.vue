@@ -90,7 +90,7 @@ const history = ref([])
 const showHistory = ref(false)
 
 //temp user (replace later when implementing login)
-const currentUser = ref(1)
+const currentUser = ref(localStorage.getItem("user_id"))
 
 const dormGroups = {
   "Academic Way": ["College Hall", "Shango Hall", "ShangoEOP", "Bouton Hall"],

@@ -152,6 +152,48 @@ app.post('/history', async (req, res) => {
     }
 });
 
+//register new user
+app.post('/register', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    await db.execute(
+      'INSERT INTO users (username, password) VALUES (?, ?)',
+      [username, password]
+    );
+
+    res.json({ message: "Registered successfully" });
+
+  } catch (err) {
+    if (err.code === 'ER_DUP_ENTRY') {
+      return res.status(400).json({ message: "Username already exists" });
+    }
+
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+//login
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+
+  const [rows] = await db.query(
+    'SELECT user_id, username FROM users WHERE username = ? AND password = ?',
+    [username, password]
+  );
+
+  if (rows.length > 0) {
+    res.json({
+      message: "Login successful",
+      user_id: rows[0].user_id,
+      username: rows[0].username
+    });
+  } else {
+    res.status(401).json({ message: "Invalid login" });
+  }
+});
 
 //start server
 app.listen(3000, () => {
