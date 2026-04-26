@@ -63,3 +63,78 @@ body {
 .card p {
     margin: 4px 0;
 }
+
+.history-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 350px;
+    height: 100vh;
+    background: white;
+    border-left: 3px solid #ccc;
+    box-shadow: -3px 0 10px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    z-index: 999;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.add-btn {
+    margin: 10px 0;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.history-content {
+    overflow-y: auto;
+    flex: 1;
+    margin-top: 10px;
+}
+
+.history-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.history-content li {
+    background: #f4f4f4;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    border-left: 4px solid #002142;
+}
+
+.history-content li b {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.history-content li small {
+    color: gray;
+    font-size: 12px;
+}
+
+.history-content li:hover {
+    background: #ededed;
+}

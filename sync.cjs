@@ -5,9 +5,11 @@ const cors = require('cors');
 const axios = require('axios');
 
 const app = express();
-app.use(cors());
 
-//Connection to the proto_pd DB
+app.use(cors());
+app.use(express.json());
+
+//connect database
 const db = mysql.createPool({
     host: 'localhost',
     user: 'appuser',
@@ -15,11 +17,8 @@ const db = mysql.createPool({
     database: 'proto_pd'
 });
 
-//Data sync
 async function sync() {
     try {
-        //gets data from school printer API's json file
-        //kinda messy but works lol
         const res = await axios.get('https://print.newpaltz.edu/api/data/acs_printer_data.json');
         const data = res.data;
 
@@ -35,16 +34,12 @@ async function sync() {
             allPrinters.push(p);
         }
 
-
-        //for below using ON DUPLICATE KEY so if serial_number already exists, it just updates the row ;)
-        //instead of inserting the same printer again
         for (const p of allPrinters) {
 
-            
             p.black = p.black != null ? parseInt(p.black) : null;
             p.cyan = p.cyan != null ? parseInt(p.cyan) : null;
             p.magenta = p.magenta != null ? parseInt(p.magenta) : null;
-            p.yellow = p.yellow != null ? parseInt(p.yellow) : null;    
+            p.yellow = p.yellow != null ? parseInt(p.yellow) : null;
             
             console.log(p);
             await db.execute(`
@@ -82,23 +77,26 @@ async function sync() {
                 p.yellow
             ]);
         }
+
         console.log("SYNC COMPLETE:", allPrinters.length);
+
     } catch (err) {
         console.error("SYNC ERROR:", err.message);
     }
 }
 
-//run on start-up
+//run on start
 console.log("!Starting initial sync!");
 sync();
 
-//refresh every 2 mins (original site updates every 5 btw)
+//syncs every 2 mins
 cron.schedule('*/2 * * * *', () => {
     console.log("Running scheduled sync...");
     sync();
 });
 
-//API route
+
+//get all printers
 app.get('/printers', async (req, res) => {
     try {
         const [rows] = await db.query('SELECT * FROM printers');
@@ -107,6 +105,53 @@ app.get('/printers', async (req, res) => {
         res.status(500).send("Error");
     }
 });
+
+//get history for a printer (with username)
+app.get('/history/:serial', async (req, res) => {
+    try {
+        const [rows] = await db.query(`
+            SELECT 
+                wh.work_id,
+                wh.notes,
+                wh.created_at,
+                u.username
+            FROM work_history wh
+            JOIN users u ON wh.user_id = u.user_id
+            WHERE wh.printer_serial = ?
+            ORDER BY wh.created_at DESC
+        `, [req.params.serial]);
+
+        res.json(rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error fetching history");
+    }
+});
+
+
+//post new history entry
+app.post('/history', async (req, res) => {
+    try {
+        const { printer_serial, user_id, notes } = req.body;
+
+        //basic validation
+        if (!printer_serial || !user_id || !notes) {
+            return res.status(400).send("Missing fields");
+        }
+
+        await db.execute(`
+            INSERT INTO work_history (printer_serial, user_id, notes)
+            VALUES (?, ?, ?)
+        `, [printer_serial, user_id, notes]);
+
+        res.send("History added");
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error adding history");
+    }
+});
+
 
 //start server
 app.listen(3000, () => {
