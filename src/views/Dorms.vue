@@ -24,6 +24,14 @@
             <p><b>Status:</b> {{ printer.status }}</p>
             <p><b>IP:</b> {{ printer.ip }}</p>
             <p><b>Pages:</b> {{ printer.page_count }}</p>
+
+            <p>
+              <b>Toner: </b>
+              <span v-if="printer.black != null">Black: {{ printer.black }}% </span>
+              <span v-if="printer.cyan != null">Cyan: {{ printer.cyan }}% </span>
+              <span v-if="printer.magenta != null">Magenta: {{ printer.magenta }}% </span>
+              <span v-if="printer.yellow != null">Yellow: {{ printer.yellow }}%</span>
+            </p>
           </div>
         </div>
 

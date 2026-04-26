@@ -11,5 +11,15 @@ CREATE TABLE IF NOT EXISTS printers (
     hardware VARCHAR(255),
     page_count INT,
     color BOOLEAN,
-    is_error BOOLEAN
+    is_error BOOLEAN,
+    black INT,
+    cyan INT,
+    magenta INT,
+    yellow INT
 );
+
+-- you might have to alter table so do the following:
+--ALTER table printers ADD black INT;
+--ALTER table printers ADD cyan INT;
+--ALTER table printers ADD magenta INT;
+--ALTER table printers ADD yellow INT;

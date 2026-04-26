@@ -34,15 +34,23 @@ async function sync() {
             p.is_error = true;
             allPrinters.push(p);
         }
-        
+
 
         //for below using ON DUPLICATE KEY so if serial_number already exists, it just updates the row ;)
         //instead of inserting the same printer again
-        for (const p of allPrinters) { 
+        for (const p of allPrinters) {
+
+            
+            p.black = p.black != null ? parseInt(p.black) : null;
+            p.cyan = p.cyan != null ? parseInt(p.cyan) : null;
+            p.magenta = p.magenta != null ? parseInt(p.magenta) : null;
+            p.yellow = p.yellow != null ? parseInt(p.yellow) : null;    
+            
+            console.log(p);
             await db.execute(`
                 INSERT INTO printers 
-                (serial_number, name, ip, location, status, uptime, hardware, page_count, color, is_error)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (serial_number, name, ip, location, status, uptime, hardware, page_count, color, is_error, black, cyan, magenta, yellow)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE
                     name = VALUES(name),
                     ip = VALUES(ip),
@@ -52,7 +60,11 @@ async function sync() {
                     hardware = VALUES(hardware),
                     page_count = VALUES(page_count),
                     color = VALUES(color),
-                    is_error = VALUES(is_error)
+                    is_error = VALUES(is_error),
+                    black = VALUES(black),
+                    cyan = VALUES(cyan),
+                    magenta = VALUES(magenta),
+                    yellow = VALUES(yellow)
             `, [
                 p.serial_number || p.name,
                 p.name,
@@ -63,7 +75,11 @@ async function sync() {
                 p.hardware || null,
                 parseInt(p.page_count) || 0,
                 p.color || false,
-                p.is_error
+                p.is_error,
+                p.black,
+                p.cyan,
+                p.magenta,
+                p.yellow
             ]);
         }
         console.log("SYNC COMPLETE:", allPrinters.length);
