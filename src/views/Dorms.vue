@@ -23,7 +23,7 @@
                 ? 'warning'
                 : (printer.is_error ? 'error' : 'ok')
             ]">
-            <!-- ADD SERIAL NUMBER TO THIS LIST -->
+            
             <h3>{{ printer.name }}</h3>
             <p><b>Location:</b> {{ printer.location }}</p>
             <p><b>Status:</b> {{ printer.status }}</p>
@@ -38,7 +38,7 @@
               <span v-if="printer.yellow != null">Yellow: {{ printer.yellow }}%</span>
             </p>
 
-            <!-- work history button -->
+            
             <button @click="openHistory(printer)">Work History</button>
 
           </div>
@@ -49,7 +49,7 @@
 
     </div>
 
-    <!-- history popup panel -->
+    
     <div v-if="showHistory" class="history-overlay"></div>
 
     <div v-if="showHistory" class="history-panel">
