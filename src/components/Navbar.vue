@@ -74,10 +74,10 @@ const problemPrinters = computed(() => {
     return printers.value.filter(p =>
         p.is_error ||
         p.status?.toLowerCase().includes("offline") ||
-        (p.black != null && p.black <= 10) ||
-        (p.cyan != null && p.cyan <= 10) ||
-        (p.magenta != null && p.magenta <= 10) ||
-        (p.yellow != null && p.yellow <= 10)
+        (p.black != null && p.black <= 3) ||
+        (p.cyan != null && p.cyan <= 3) ||
+        (p.magenta != null && p.magenta <= 3) ||
+        (p.yellow != null && p.yellow <= 3)
     )
 })
 
