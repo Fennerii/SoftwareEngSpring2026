@@ -19,8 +19,20 @@ const db = mysql.createPool({
 
 async function sync() {
     try {
+        console.log("Running sync...");
+
         const res = await axios.get('https://print.newpaltz.edu/api/data/acs_printer_data.json');
         const data = res.data;
+
+        await db.execute(`
+            UPDATE printers 
+            SET 
+                is_error = 0,
+                black = NULL,
+                cyan = NULL,
+                magenta = NULL,
+                yellow = NULL
+        `);
 
         let allPrinters = [];
 
@@ -34,14 +46,19 @@ async function sync() {
             allPrinters.push(p);
         }
 
+        console.log("Total printers from API:", allPrinters.length);
+
         for (const p of allPrinters) {
 
             p.black = p.black != null ? parseInt(p.black) : null;
             p.cyan = p.cyan != null ? parseInt(p.cyan) : null;
             p.magenta = p.magenta != null ? parseInt(p.magenta) : null;
             p.yellow = p.yellow != null ? parseInt(p.yellow) : null;
-            
-            //console.log(p);
+
+            const isError = p.is_error ? 1 : 0;
+
+            //console.log(`Updating ${p.name} → is_error: ${isError}`);
+
             await db.execute(`
                 INSERT INTO printers 
                 (serial_number, name, ip, location, status, uptime, hardware, page_count, color, is_error, black, cyan, magenta, yellow)
@@ -70,7 +87,7 @@ async function sync() {
                 p.hardware || null,
                 parseInt(p.page_count) || 0,
                 p.color || false,
-                p.is_error,
+                isError,
                 p.black,
                 p.cyan,
                 p.magenta,
