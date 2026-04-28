@@ -6,7 +6,6 @@
     <div v-if="error">{{ error }}</div>
 
     <div class="cards">
-
       <div v-for="(printers, building) in groupedPrinters" :key="building">
 
         <div class="building-header" @click="toggle(building)">
@@ -15,14 +14,16 @@
 
         <div v-if="open[building]" class="printer-list">
 
-          <div v-for="printer in printers" :key="printer.serial_number" 
-          :class="[
-            'card',
-            isLowToner(printer)
-              ? 'warning'
-              : (printer.is_error ? 'error' : 'ok')
-          ]">
-            
+          <div
+            v-for="printer in printers"
+            :key="printer.serial_number"
+            :class="[
+              'card',
+              isLowToner(printer)
+                ? 'warning'
+                : (printer.is_error ? 'error' : 'ok')
+            ]"
+          >
             <h3>{{ printer.name }}</h3>
             <p><b>Location:</b> {{ printer.location }}</p>
             <p><b>Status:</b> {{ printer.status }}</p>
@@ -37,22 +38,16 @@
               <span v-if="printer.yellow != null">Yellow: {{ printer.yellow }}%</span>
             </p>
 
-            
             <button @click="openHistory(printer)">Work History</button>
-
           </div>
 
         </div>
-
       </div>
-
     </div>
 
-    
     <div v-if="showHistory" class="history-overlay"></div>
 
     <div v-if="showHistory" class="history-panel">
-
       <div class="history-header">
         <h2>History for {{ selectedPrinter.name }}</h2>
         <button class="close-btn" @click="showHistory = false">✕</button>
@@ -69,7 +64,6 @@
           </li>
         </ul>
       </div>
-
     </div>
 
   </div>
@@ -77,18 +71,16 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import { printers, loadPrinters } from '../stores/printers'
 
-const printers = ref([])
 const loading = ref(true)
 const error = ref(null)
 
 const open = ref({})
-
 const selectedPrinter = ref(null)
 const history = ref([])
 const showHistory = ref(false)
 
-//temp user (replace later when implementing login)
 const currentUser = ref(localStorage.getItem("user_id"))
 
 const academicBuildings = [
@@ -108,12 +100,11 @@ const academicBuildings = [
   "Van den Berg Hall"
 ]
 
-//load printers
 onMounted(async () => {
   try {
-    const res = await fetch('http://localhost:3000/printers')
-    const data = await res.json()
-    printers.value = data
+    if (printers.value.length === 0) {
+      await loadPrinters()
+    }
   } catch (e) {
     error.value = "couldn't load printers"
   }
@@ -121,7 +112,6 @@ onMounted(async () => {
   loading.value = false
 })
 
-//group printers
 const groupedPrinters = computed(() => {
   let groups = {}
 
@@ -136,13 +126,9 @@ const groupedPrinters = computed(() => {
 
     if (!isAcademic) return
 
-    let name = p.location.split('(')[0]
-    name = name.trim()
+    let name = p.location.split('(')[0].trim()
 
-    if (!groups[name]) {
-      groups[name] = []
-    }
-
+    if (!groups[name]) groups[name] = []
     groups[name].push(p)
   })
 
@@ -154,22 +140,21 @@ const groupedPrinters = computed(() => {
   return sorted
 })
 
-//toggles dropdown
 function toggle(building) {
   open.value[building] = !open.value[building]
 }
 
-//checks toner levels, returns true if levels reach 10% or lower
+//checks if a printer is low on toner
 function isLowToner(printer) {
   return (
     (printer.black != null && printer.black <= 10) ||
     (printer.cyan != null && printer.cyan <= 10) ||
     (printer.magenta != null && printer.magenta <= 10) ||
     (printer.yellow != null && printer.yellow <= 10)
-  );
+  )
 }
 
-//opens specific printer's history log
+//opens printer history sidebar
 async function openHistory(printer) {
   selectedPrinter.value = printer
   showHistory.value = true
@@ -178,25 +163,22 @@ async function openHistory(printer) {
   history.value = await res.json()
 }
 
-//add work entry to printer's history log
+//prompts user to state work done to printer, inserts history into table,
+//which gets displayed
 async function addHistory() {
   const notes = prompt("What did you fix/do?")
-
   if (!notes) return
 
   await fetch('http://localhost:3000/history', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       printer_serial: selectedPrinter.value.serial_number,
       user_id: currentUser.value,
-      notes: notes
+      notes
     })
   })
 
   openHistory(selectedPrinter.value)
 }
-
 </script>

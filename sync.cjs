@@ -41,7 +41,7 @@ async function sync() {
             p.magenta = p.magenta != null ? parseInt(p.magenta) : null;
             p.yellow = p.yellow != null ? parseInt(p.yellow) : null;
             
-            console.log(p);
+            //console.log(p);
             await db.execute(`
                 INSERT INTO printers 
                 (serial_number, name, ip, location, status, uptime, hardware, page_count, color, is_error, black, cyan, magenta, yellow)
@@ -91,7 +91,7 @@ sync();
 
 //syncs every 2 mins
 cron.schedule('*/2 * * * *', () => {
-    console.log("Running scheduled sync...");
+    console.log("CRON FIRED at:", new Date().toLocaleTimeString());
     sync();
 });
 

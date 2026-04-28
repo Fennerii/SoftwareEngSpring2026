@@ -2,14 +2,41 @@
     <div>
         <nav>
             <div class="nav-brand">
-                <img src="../assets/newpaltz_logo_dark.jpg" alt="Logo" width="50" height="50" class="nav-logo">
+                <img src="../assets/newpaltz_logo_dark.jpg" class="nav-logo">
             </div>
 
             <div class="nav-links">
+
                 <RouterLink to="/">Home</RouterLink>
                 <a @click="goProtected('/Academic')">Academic Buildings</a>
                 <a @click="goProtected('/Dorms')">Dormitories</a>
                 <a @click="goProtected('/Storage')">Storage</a>
+
+                <!-- only show when logged in -->
+                <div class="warning-wrapper" v-if="username && problemPrinters.length > 0">
+                    <div class="warning-icon" @click="togglePanel">
+                        ⚠️ {{ problemPrinters.length }}
+                    </div>
+
+                    <div v-if="showPanel" class="warning-panel">
+                        <h3>Printers with Issues</h3>
+
+                        <div class="warning-list">
+                            <div 
+                                v-for="p in problemPrinters" 
+                                :key="p.serial_number"
+                                :class="getSeverityClass(p)"
+                                @click="goToPrinter(p)"
+                            >
+                                <b>{{ p.name }}</b>
+                                <p>{{ p.location }}</p>
+                                <span class="tag">
+                                    {{ getStatus(p) }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <span v-if="username" class="user">
                     Logged in as <b>{{ username }}</b>
@@ -20,36 +47,105 @@
                 </button>
 
                 <RouterLink v-else to="/Auth">Login</RouterLink>
+
             </div>
         </nav>
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { printers, loadPrinters } from '../stores/printers'
 
 const router = useRouter()
-
 const username = ref(null)
+const showPanel = ref(false)
 
-onMounted(() => {
+onMounted(async () => {
     username.value = localStorage.getItem("username")
+
+    if (username.value) {
+        await loadPrinters()
+    }
 })
 
+const problemPrinters = computed(() => {
+    return printers.value.filter(p =>
+        p.is_error ||
+        p.status?.toLowerCase().includes("offline") ||
+        (p.black != null && p.black <= 10) ||
+        (p.cyan != null && p.cyan <= 10) ||
+        (p.magenta != null && p.magenta <= 10) ||
+        (p.yellow != null && p.yellow <= 10)
+    )
+})
+
+function togglePanel() {
+    showPanel.value = !showPanel.value
+}
+
+function getStatus(p) {
+    if (p.is_error || p.status?.toLowerCase().includes("offline")) {
+        return "ERROR"
+    }
+    return "LOW TONER"
+}
+
+function getSeverityClass(p) {
+    if (p.is_error || p.status?.toLowerCase().includes("offline")) {
+        return "error-item"
+    }
+    return "warning-item"
+}
+
+function goToPrinter(p) {
+    showPanel.value = false
+
+    const academicBuildings = [
+        "Engineering and Innovation Hub",
+        "Peregrine Dining Hall",
+        "Louis and Mildred Resnick Hall",
+        "Smiley Art Building",
+        "Wooster Hall",
+        "Atrium",
+        "Academic College Hall",
+        "Coykendall Science Building",
+        "Lecture Center",
+        "Science Hall",
+        "Humanities",
+        "Old Main",
+        "Old Library",
+        "Van den Berg Hall"
+    ]
+
+    for (let i = 0; i < academicBuildings.length; i++) {
+        if (p.location.includes(academicBuildings[i])) {
+            router.push('/Academic')
+            return
+        }
+    }
+
+    const dormKeywords = ["Hall", "EOP", "Suites", "Quad"]
+
+    for (let i = 0; i < dormKeywords.length; i++) {
+        if (p.location.includes(dormKeywords[i])) {
+            router.push('/Dorms')
+            return
+        }
+    }
+
+    router.push('/Storage')
+}
+
 function logout() {
-    localStorage.removeItem("user_id")
-    localStorage.removeItem("username")
+    localStorage.clear()
     window.location.href = "/"
 }
 
 function goProtected(path) {
     const user = localStorage.getItem("user_id")
-
-    if (!user) {
-        router.push('/Auth')
-    } else {
-        router.push(path)
-    }
+    if (!user) router.push('/Auth')
+    else router.push(path)
 }
 </script>

@@ -223,3 +223,81 @@ button {
   margin-top: 10px;
   color: red;
 }
+
+
+.warning-wrapper {
+    position: relative;
+    margin-left: 20px;
+}
+
+.warning-icon {
+    background: #d8652f;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    animation: pulse 3.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+.warning-panel {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 999;
+}
+
+.warning-item {
+    background: #fff4e5;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    border-left: 5px solid orange;
+    margin-bottom: 8px;
+}
+
+.error-item {
+    background: #ffe5e5;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    border-left: 5px solid red;
+    margin-bottom: 8px;
+}
+
+.warning-item:hover {
+    background: #ffe8cc;
+}
+
+.error-item:hover {
+    background: #ffd6d6;
+}
+
+.tag {
+    font-size: 12px;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.warning-item .tag {
+    background: orange;
+}
+
+.error-item .tag {
+    background: red;
+}
+
