@@ -134,10 +134,10 @@ function toggle(building) {
 //checks if a printer is low on toner
 function isLowToner(printer) {
   return (
-    (printer.black != null && printer.black <= 10) ||
-    (printer.cyan != null && printer.cyan <= 10) ||
-    (printer.magenta != null && printer.magenta <= 10) ||
-    (printer.yellow != null && printer.yellow <= 10)
+    (printer.black != null && printer.black <= 3) ||
+    (printer.cyan != null && printer.cyan <= 3) ||
+    (printer.magenta != null && printer.magenta <= 3) ||
+    (printer.yellow != null && printer.yellow <= 3)
   )
 }
 
