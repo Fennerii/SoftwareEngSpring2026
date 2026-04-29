@@ -4,6 +4,19 @@ Inventory Management System for Department Supplies – Tracks and reports depar
 ## Authored By
 Jonathan Fenner, Joshua Alfarano, Taylor Ascarino, Ananda Feron
 
+# How to Run
+# Running the project
+
+## Client (Vue frontend)
+cd client
+npm install
+npm run dev
+
+## Server (Express + MySQL backend)
+cd server
+npm install
+node sync.cjs
+
 #TODO: 
 MYSQL DataBase
 Paper Section
