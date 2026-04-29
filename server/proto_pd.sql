@@ -19,10 +19,10 @@ CREATE TABLE IF NOT EXISTS printers (
 );
 
 -- you might have to alter table so do the following:
---ALTER table printers ADD black INT;
---ALTER table printers ADD cyan INT;
---ALTER table printers ADD magenta INT;
---ALTER table printers ADD yellow INT;
+-- ALTER table printers ADD black INT;
+-- ALTER table printers ADD cyan INT;
+-- ALTER table printers ADD magenta INT;
+-- ALTER table printers ADD yellow INT;
 
 CREATE TABLE IF NOT EXISTS users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const cron = require('node-cron');
 const express = require('express');
 const mysql = require('mysql2/promise');
@@ -11,10 +12,10 @@ app.use(express.json());
 
 //connect database
 const db = mysql.createPool({
-    host: 'localhost',
-    user: 'appuser',
-    password: 'pass123',
-    database: 'proto_pd'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 });
 
 async function sync() {
@@ -172,6 +173,7 @@ app.post('/history', async (req, res) => {
 //register new user
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
+  console.log("Register hit:", username, password);
 
   try {
     await db.execute(
@@ -213,6 +215,6 @@ app.post('/login', async (req, res) => {
 });
 
 //start server
-app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
+app.listen(process.env.PORT || 3000, () => {
+    console.log("Server running on http://localhost:" + (process.env.PORT || 3000));
 });
