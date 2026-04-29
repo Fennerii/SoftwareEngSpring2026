@@ -7,12 +7,12 @@ Jonathan Fenner, Joshua Alfarano, Taylor Ascarino, Ananda Feron
 # How to Run
 # Running the project
 
-## Client (Vue frontend)
+- Client (Vue frontend)
 cd client
 npm install
 npm run dev
 
-## Server (Express + MySQL backend)
+- Server (Express + MySQL backend)
 cd server
 npm install
 node sync.cjs
