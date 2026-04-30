@@ -145,7 +145,7 @@ function toggle(building) {
   open.value[building] = !open.value[building]
 }
 
-//checks if a printer is low on toner
+//checks if a printer is low on toner (EXPORTED TO printerUtils.js)
 /* function isLowToner(printer) {
   return (
     (printer.black != null && printer.black <= 3) ||
