@@ -72,6 +72,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { printers, loadPrinters } from '../stores/printers'
+import { isLowToner } from '../utils/printerUtils'
 
 const loading = ref(true)
 const error = ref(null)
@@ -131,15 +132,15 @@ function toggle(building) {
   open.value[building] = !open.value[building]
 }
 
-//checks if a printer is low on toner
-function isLowToner(printer) {
+//checks if a printer is low on toner (EXPORTED TO printerUtils.js)
+/* function isLowToner(printer) {
   return (
     (printer.black != null && printer.black <= 3) ||
     (printer.cyan != null && printer.cyan <= 3) ||
     (printer.magenta != null && printer.magenta <= 3) ||
     (printer.yellow != null && printer.yellow <= 3)
   )
-}
+} */
 
 //opens printer history sidebar
 async function openHistory(printer) {
