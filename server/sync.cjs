@@ -105,6 +105,35 @@ app.post('/history', async (req, res) => {
     }
 });
 
+// UPDATE history
+app.put('/history/:id', async (req, res) => {
+    try {
+        await db.execute(
+            "UPDATE work_history SET notes=? WHERE work_id=?",
+            [req.body.notes, req.params.id]
+        );
+        res.send("updated");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("error updating");
+    }
+});
+
+// DELETE history
+app.delete('/history/:id', async (req, res) => {
+    try {
+        await db.execute(
+            "DELETE FROM work_history WHERE work_id=?",
+            [req.params.id]
+        );
+        res.send("deleted");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("error deleting");
+    }
+});
+
+
 app.post('/register', async (req, res) => {
     const { username, password } = req.body;
     try {

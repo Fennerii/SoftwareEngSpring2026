@@ -81,56 +81,56 @@ function toggle(id) {
 }
 </script>
 
-<style scoped>
-.storage { padding: 20px; }
+<!-- <style scoped>
+  .storage { padding: 20px; }
 
-h1 { margin-bottom: 16px; }
+  h1 { margin-bottom: 16px; }
 
-.tabs {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
+  .tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
 
-.tabs button {
-  padding: 8px 18px;
-  border: none;
-  border-radius: 6px;
-  background: #0d2149;
-  color: white;
-  cursor: pointer;
-  font-size: 14px;
-}
+  .tabs button {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 6px;
+    background: #0d2149;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+  }
 
-.tabs button.active { background: #6c3bff; }
+  .tabs button.active { background: #6c3bff; }
 
-.group-header {
-  font-size: 16px;
-  color: #aaa;
-  margin: 16px 0 8px;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 4px;
-}
+  .group-header {
+    font-size: 16px;
+    color: #aaa;
+    margin: 16px 0 8px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 4px;
+  }
 
-.location-block {
-  margin-bottom: 8px;
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid #ddd;
-}
+  .location-block {
+    margin-bottom: 8px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+  }
 
-.location-header {
-  padding: 12px 16px;
-  cursor: pointer;
-  font-weight: 600;
-  user-select: none;
-}
+  .location-header {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-weight: 600;
+    user-select: none;
+  }
 
-.location-header:hover { background: #f5f5f5; }
+  .location-header:hover { background: #f5f5f5; }
 
-.location-body {
-  padding: 16px;
-  border-top: 1px solid #ddd;
-}
-</style>
+  .location-body {
+    padding: 16px;
+    border-top: 1px solid #ddd;
+  }
+</style> -->

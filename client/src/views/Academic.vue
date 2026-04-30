@@ -30,14 +30,6 @@
             <p><b>IP:</b> {{ printer.ip }}</p>
             <p><b>Pages:</b> {{ printer.page_count }}</p>
 
-            <p>
-              <b>Toner: </b>
-              <span v-if="printer.black != null">Black: {{ printer.black }}% </span>
-              <span v-if="printer.cyan != null">Cyan: {{ printer.cyan }}% </span>
-              <span v-if="printer.magenta != null">Magenta: {{ printer.magenta }}% </span>
-              <span v-if="printer.yellow != null">Yellow: {{ printer.yellow }}%</span>
-            </p>
-
             <button @click="openHistory(printer)">Work History</button>
           </div>
 
@@ -45,22 +37,44 @@
       </div>
     </div>
 
-    <div v-if="showHistory" class="history-overlay"></div>
-
+    <!-- history panel -->
     <div v-if="showHistory" class="history-panel">
+
       <div class="history-header">
-        <h2>History for {{ selectedPrinter.name }}</h2>
+        <h2>{{ selectedPrinter.name }}</h2>
         <button class="close-btn" @click="showHistory = false">✕</button>
       </div>
 
-      <button class="add-btn" @click="addHistory">+ Add Entry</button>
+      <!-- add work history entry -->
+      <div class="add-entry">
+        <input v-model="newNote" placeholder="Enter work done..." />
+        <button @click="submitHistory">Add</button>
+      </div>
 
       <div class="history-content">
         <ul>
-          <li v-for="h in history" :key="h.work_id">
-            <b>{{ h.username }}</b> — {{ h.notes }}
-            <br>
+          <li v-for="h in history" :key="h.work_id" class="history-item">
+
+            <div class="history-top">
+              <b>{{ h.username }}</b>
+
+              <div class="history-actions">
+                <span @click="startEdit(h)">✏️</span>
+                <span @click="deleteHistory(h.work_id)">✕</span>
+              </div>
+            </div>
+
+            <div v-if="editingId === h.work_id">
+              <input v-model="editText" />
+              <button @click="saveEdit(h.work_id)">Save</button>
+            </div>
+
+            <div v-else>
+              {{ h.notes }}
+            </div>
+
             <small>{{ new Date(h.created_at).toLocaleString() }}</small>
+
           </li>
         </ul>
       </div>
@@ -84,6 +98,10 @@ const showHistory = ref(false)
 
 const currentUser = ref(localStorage.getItem("user_id"))
 
+const newNote = ref("")
+const editingId = ref(null)
+const editText = ref("")
+
 const academicBuildings = [
   "Engineering and Innovation Hub",
   "Peregrine Dining Hall",
@@ -100,18 +118,6 @@ const academicBuildings = [
   "Old Library",
   "Van den Berg Hall"
 ]
-
-onMounted(async () => {
-  try {
-    if (printers.value.length === 0) {
-      await loadPrinters()
-    }
-  } catch (e) {
-    error.value = "couldn't load printers"
-  }
-
-  loading.value = false
-})
 
 const groupedPrinters = computed(() => {
   let groups = {}
@@ -141,21 +147,22 @@ const groupedPrinters = computed(() => {
   return sorted
 })
 
+onMounted(async () => {
+  try {
+    if (printers.value.length === 0) {
+      await loadPrinters()
+    }
+  } catch (e) {
+    error.value = "couldn't load printers"
+  }
+
+  loading.value = false
+})
+
 function toggle(building) {
   open.value[building] = !open.value[building]
 }
 
-//checks if a printer is low on toner (EXPORTED TO printerUtils.js)
-/* function isLowToner(printer) {
-  return (
-    (printer.black != null && printer.black <= 3) ||
-    (printer.cyan != null && printer.cyan <= 3) ||
-    (printer.magenta != null && printer.magenta <= 3) ||
-    (printer.yellow != null && printer.yellow <= 3)
-  )
-} */
-
-//opens printer history sidebar
 async function openHistory(printer) {
   selectedPrinter.value = printer
   showHistory.value = true
@@ -164,11 +171,9 @@ async function openHistory(printer) {
   history.value = await res.json()
 }
 
-//prompts user to state work done to printer, inserts history into table,
-//which gets displayed
-async function addHistory() {
-  const notes = prompt("What did you fix/do?")
-  if (!notes) return
+/* create work history entry */
+async function submitHistory() {
+  if (!newNote.value) return
 
   await fetch('http://localhost:3000/history', {
     method: 'POST',
@@ -176,8 +181,35 @@ async function addHistory() {
     body: JSON.stringify({
       printer_serial: selectedPrinter.value.serial_number,
       user_id: currentUser.value,
-      notes
+      notes: newNote.value
     })
+  })
+
+  newNote.value = ""
+  openHistory(selectedPrinter.value)
+}
+
+/* edit work history entry */
+function startEdit(h) {
+  editingId.value = h.work_id
+  editText.value = h.notes
+}
+
+async function saveEdit(id) {
+  await fetch(`http://localhost:3000/history/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ notes: editText.value })
+  })
+
+  editingId.value = null
+  openHistory(selectedPrinter.value)
+}
+
+/* delete work history entry */
+async function deleteHistory(id) {
+  await fetch(`http://localhost:3000/history/${id}`, {
+    method: 'DELETE'
   })
 
   openHistory(selectedPrinter.value)
