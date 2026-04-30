@@ -1,3 +1,4 @@
+import { ref, computed, onMounted } from 'vue';
 <template>
   <div class="storage">
     <h1>Supply Inventory</h1>
@@ -199,7 +200,6 @@ const SupplySection = {
   template: `
     <div class="supply-log">
 
-      <!-- TONER -->
       <div class="section">
         <h3>Toner</h3>
         <table v-if="tonerLog.length">
@@ -267,7 +267,7 @@ const SupplySection = {
 };
 </script>
 
-<style scoped>
+<style>
 .storage { padding: 20px; }
 
 h1 { margin-bottom: 16px; }
@@ -276,13 +276,14 @@ h1 { margin-bottom: 16px; }
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .tabs button {
   padding: 8px 18px;
   border: none;
   border-radius: 6px;
-  background: #2a2a2a;
+  background: #0d2149;
   color: white;
   cursor: pointer;
   font-size: 14px;
@@ -306,17 +307,17 @@ h1 { margin-bottom: 16px; }
 }
 
 .location-header {
-  background: #1e1e1e;
+  background: transparent;
   padding: 12px 16px;
   cursor: pointer;
   font-weight: 600;
   user-select: none;
 }
 
-.location-header:hover { background: #2a2a2a; }
+.location-header:hover { border: #111; }
 
 .location-body {
-  background: #111;
+  background: off-white;
   padding: 16px;
 }
 
