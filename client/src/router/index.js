@@ -7,13 +7,26 @@ import Auth from '../views/Auth.vue'
 
 const routes = [
     { path: '/', component: Home },
-    {path: '/Academic', component: Academic},
-    {path: '/Dorms', component: Dorms},
-    {path: '/Storage', component: Storage},
-    {path: '/Auth', component: Auth}
+    { path: '/Academic', component: Academic, meta: { requiresAuth: true } },
+    { path: '/Dorms', component: Dorms, meta: { requiresAuth: true } },
+    { path: '/Storage', component: Storage, meta: { requiresAuth: true } },
+    { path: '/Auth', component: Auth }
 ]
 
-export default createRouter({
+const router = createRouter({
     history: createWebHistory(),
     routes,
 })
+
+// routes user to login if not logged in
+router.beforeEach((to, from, next) => {
+    const isLoggedIn = localStorage.getItem("user_id")
+
+    if (to.meta.requiresAuth && !isLoggedIn) {
+        next('/Auth')
+    } else {
+        next()
+    }
+})
+
+export default router
